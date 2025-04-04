@@ -1,0 +1,37 @@
+security:
+    # Encodage des mots de passe
+    password_hashers:
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+
+    # Rôles d'utilisateur
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_USER
+
+    providers:
+        # Définir un fournisseur pour récupérer l'utilisateur
+        in_memory:
+            memory:
+                users:
+                    user:
+                        password: 'password' # ceci est pour l'exemple
+                        roles: ['ROLE_USER']
+
+    firewalls:
+        # Partie publique
+        main:
+            pattern: ^/(?!login|register)
+            # Sécuriser l'accès aux pages privées
+            security: true
+            form_login:
+                login_path: app_connexion
+                check_path: app_login
+                default_target_path: posts_list
+            logout:
+                path: app_logout
+                target: /login
+
+    access_control:
+        # Contrôle d'accès pour chaque route
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/posts, roles: ROLE_USER }

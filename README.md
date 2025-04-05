@@ -1,4 +1,5 @@
-# symphopho
+# Muse & Marbre
+
 Liste des membres du groupe : 
 - Imane Iguederzen
 - Imen Khlifi

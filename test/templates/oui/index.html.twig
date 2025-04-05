@@ -1,20 +1,151 @@
+{# templates/home.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello OuiController!{% endblock %}
+{% block title %}Muse & Marbre{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: url('https://www.toptal.com/designers/subtlepatterns/uploads/marble-pattern.png') no-repeat center center fixed;
+            background-size: cover;
+            text-align: center;
+        }
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.8);
+            position: relative;
+            z-index: 10;
+        }
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/Users/nerminekhadraoui/Desktop/HETIC/symphony/test/src/Controller/OuiController.php</code></li>
-        <li>Your template at <code>/Users/nerminekhadraoui/Desktop/HETIC/symphony/test/templates/oui/index.html.twig</code></li>
-    </ul>
-</div>
+        .menu-btn {
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .nav-menu {
+            position: fixed;
+            top: 0; 
+            left: -250px;
+            width: 250px;
+            height: 100%;
+            background: black;
+            color: white;
+            padding: 20px;
+            transition: left 0.3s;
+            z-index: 9;
+        }
+
+        .nav-menu.show {
+            left: 0;
+        }
+
+        .nav-menu a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 10px 0;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            padding: 20px;
+            max-width: 800px;
+            margin: auto;
+            z-index: 1;
+        }
+
+        .card {
+            background: black;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.7);
+        }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .card .price {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+
+    <header>
+        <div class="menu-btn" onclick="toggleMenu()">☰</div>
+        <h1>Muse & Marbre</h1>
+        <button>Connexion</button>
+    </header>
+
+    <div class="nav-menu" id="navMenu">
+        <a href="#">Home</a>
+        <a href="#">Explore</a>
+        <a href="#">Notifications</a>
+        <a href="#">Messages</a>
+        <a href="#">Profile</a>
+        <a href="#">More</a>
+    </div>
+
+    {# Section des statues en vitrine #}
+    <div class="grid">
+        <div class="card">
+            <img src="https://example.com/seraphina.jpg" alt="Seraphina Statue">
+            Seraphina
+            <div class="price">8 080$</div>
+        </div>
+        <div class="card">
+            <img src="https://example.com/celestia.jpg" alt="Celestia Statue">
+            Celestia
+            <div class="price">10 560$</div>
+        </div>
+        <div class="card">
+            <img src="https://example.com/lenore.jpg" alt="Lenore Statue">
+            Lenore
+        </div>
+        <div class="card">
+            <img src="https://example.com/isolde.jpg" alt="Isolde Statue">
+            Isolde
+        </div>
+    </div>
+
+    {# Section des posts dynamiques depuis le controller Symfony #}
+    <div id="post-container">
+        {% for post in posts %}
+            {% include 'post/_post.html.twig' with {'post': post} %}
+        {% endfor %}
+    </div>
+
+    {# Script JS de menu + scroll infini #}
+    <script>
+        function toggleMenu() {
+            document.getElementById('navMenu').classList.toggle('show');
+        }
+    </script>
+    <script src="{{ asset('js/scroll.js') }}"></script>
+
+    {# Formulaire de connexion réutilisable #}
+    {% include 'security/_login_form.html.twig' %}
 {% endblock %}

@@ -1,25 +1,20 @@
-{# templates/post/post.html.twig #}
+{% extends 'base.html.twig' %}
 
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liste des Posts</title>
-</head>
-<body>
-    <h1>Bienvenue {{ username }}</h1>
+{% block title %}Posts{% endblock %}
 
-    <div id="posts-container">
-        {% for post in posts %}
-            <div class="post">
-                <h2>{{ post.description }}</h2>
-                <p>Posté le : {{ post.createdAt|date('d/m/Y H:i') }}</p>
-                <img src="/uploads/images/{{ post.image }}" alt="Image du post" />
-            </div>
-        {% endfor %}
-    </div>
+{% block body %}
+    <h1>Liste des posts</h1>
 
-    <script src="/js/scroll.js"></script>
-</body>
-</html>
+    {% for post in posts %}
+        <div style="border: 1px solid #ccc; padding: 20px; margin-bottom: 20px;">
+            {% if post.image %}
+                <img src="{{ asset('uploads/images/' ~ post.image) }}" alt="Image du post" style="max-width: 300px;">
+            {% endif %}
+
+            <p><strong>Description :</strong> {{ post.description }}</p>
+            <p><small>Publié le {{ post.createdAt|date('d/m/Y H:i') }}</small></p>
+        </div>
+    {% else %}
+        <p>Aucun post trouvé.</p>
+    {% endfor %}
+{% endblock %}
